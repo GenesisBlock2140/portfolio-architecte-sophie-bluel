@@ -3,11 +3,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 const init = async () => {
-  getAllCategory();
+  await getAllCategory();
+  renderCategoryButton();
   await getAllWorks();
   // test filtre
-  const tt = [...allWorks.filter((item) => item.categoryId === 2)];
+  const tt = [...allWorks.filter((item) => item.categoryId === 1)];
   console.log("tt val", tt);
+  console.log("allWorks", allWorks);
 };
 
 let allCategory = [];
@@ -45,3 +47,33 @@ function renderWorkItem({ imageUrl, title }) {
   figure.appendChild(figcaption);
   gallery.appendChild(figure);
 }
+
+const renderCategoryButton = () => {
+  let categoryBox = document.querySelector(".category-btn-box");
+
+  for (let i = 0; i < allCategory.length; i++) {
+    let filterButton = document.createElement("button");
+    filterButton.textContent = allCategory[i].name;
+    filterButton.classList.add("category-btn");
+    filterButton.addEventListener("click", () => {
+      const gallery = document.querySelector(".gallery");
+      gallery.innerHTML = "";
+      filterButton.classList.add("category-btn-active");
+      renderAllWorks({
+        data: [
+          ...allWorks.filter((item) => item.categoryId === allCategory[i].id),
+        ],
+      });
+    });
+    categoryBox.appendChild(filterButton);
+  }
+
+  let filterAll = document.querySelector(".filter-all");
+  filterAll.addEventListener("click", () => {
+    const gallery = document.querySelector(".gallery");
+    gallery.innerHTML = "";
+    renderAllWorks({
+      data: [...allWorks],
+    });
+  });
+};

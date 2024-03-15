@@ -1,12 +1,3 @@
-document.addEventListener("DOMContentLoaded", function () {
-  let submitBtn = document.querySelector(".submit-btn");
-  let emailInput = document.querySelector("#email");
-  let passwordInput = document.querySelector("#password");
-  submitBtn.addEventListener("click", () => {
-    tryLogin({ email: emailInput.value, password: passwordInput.value });
-  });
-});
-
 async function tryLogin({ email, password }) {
   const baseUrl = "http://localhost:5678";
   const data = {
@@ -35,3 +26,21 @@ async function tryLogin({ email, password }) {
     console.log("Erreur", error);
   }
 }
+
+function init() {
+  let submitBtn = document.querySelector(".submit-btn");
+  let emailInput = document.querySelector("#email");
+  let passwordInput = document.querySelector("#password");
+  submitBtn.addEventListener("click", () => {
+    tryLogin({ email: emailInput.value, password: passwordInput.value });
+  });
+}
+
+init();
+
+// enlever domlistener et mettre script defer dans login.html & index.html OK
+// mettre a href dans les <li> avec # OK
+// figure dataset de la categori pour filtrer avec css en fonction du dataset et hidden les figures quand on switch de category OK
+// passer directement "data" dans renderWorkItem et c'est lui qui vient chercher quelle data il prend OK
+// live server pour localstorage
+// enlever "Tous" en category du html et le push de base dans let allCategory = []; en position 0 OK

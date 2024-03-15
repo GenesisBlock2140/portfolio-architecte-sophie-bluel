@@ -1,24 +1,13 @@
-document.addEventListener("DOMContentLoaded", function () {
-  init();
-});
-
-const init = async () => {
-  await getAllCategory();
-  renderCategoryButton();
-  await getAllWorks();
-  // test filtre
-  const tt = [...allWorks.filter((item) => item.categoryId === 1)];
-  console.log("tt val", tt);
-  console.log("allWorks", allWorks);
-};
-
 let allCategory = [];
 let allWorks = [];
 
 const getAllCategory = async () => {
+  // Adding "Tous" to category in first place
+  allCategory.push({ id: 0, name: "Tous" });
   const req = await fetch("http://localhost:5678/api/categories");
   const res = await req.json();
-  allCategory = res;
+  allCategory = allCategory.concat(res);
+  console.log(allCategory);
 };
 
 const getAllWorks = async () => {
@@ -30,22 +19,24 @@ const getAllWorks = async () => {
 };
 
 const renderAllWorks = ({ data }) => {
+  const gallery = document.querySelector(".gallery");
   data.map((item) => {
-    renderWorkItem({ imageUrl: item.imageUrl, title: item.title });
+    gallery.appendChild(renderWorkItem({ data: item }));
   });
 };
 
-function renderWorkItem({ imageUrl, title }) {
-  const gallery = document.querySelector(".gallery");
+function renderWorkItem({ data }) {
+  console.log(data);
   let figure = document.createElement("figure");
   let img = document.createElement("img");
-  img.src = imageUrl;
-  img.alt = title;
+  img.src = data.imageUrl;
+  img.alt = data.title;
   let figcaption = document.createElement("figcaption");
-  figcaption.textContent = title;
+  figcaption.textContent = data.title;
+  figure.dataset.categoryId = data.categoryId;
   figure.appendChild(img);
   figure.appendChild(figcaption);
-  gallery.appendChild(figure);
+  return figure;
 }
 
 const renderCategoryButton = () => {
@@ -56,24 +47,28 @@ const renderCategoryButton = () => {
     filterButton.textContent = allCategory[i].name;
     filterButton.classList.add("category-btn");
     filterButton.addEventListener("click", () => {
-      const gallery = document.querySelector(".gallery");
-      gallery.innerHTML = "";
-      filterButton.classList.add("category-btn-active");
-      renderAllWorks({
-        data: [
-          ...allWorks.filter((item) => item.categoryId === allCategory[i].id),
-        ],
+      let figures = document.querySelectorAll("figure[data-category-id]");
+      figures.forEach((figure) => {
+        if (i === 0) {
+          figure.style.display = "block";
+          return;
+        }
+        if (figure.dataset.categoryId == i) {
+          figure.style.display = "block";
+        } else {
+          figure.style.display = "none";
+        }
       });
     });
     categoryBox.appendChild(filterButton);
   }
-
-  let filterAll = document.querySelector(".filter-all");
-  filterAll.addEventListener("click", () => {
-    const gallery = document.querySelector(".gallery");
-    gallery.innerHTML = "";
-    renderAllWorks({
-      data: [...allWorks],
-    });
-  });
 };
+
+const init = async () => {
+  await getAllCategory();
+  await getAllWorks();
+  renderCategoryButton();
+  console.log("allWorks", allWorks);
+};
+
+init();

@@ -9,9 +9,14 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap"
 		rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+		integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/modal.css">
 	<script src="script.js" defer></script>
+	<script src="modal.js" defer></script>
 </head>
 
 <body>
@@ -63,6 +68,42 @@
 				<input type="submit" value="Envoyer">
 			</form>
 		</section>
+		<button id="myBtn">Ouvrir modal</button>
+
+		<div id="galerie-modal" class="modal">
+			<div class="galerie-modal-content">
+				<div class="galerie-modal-navigation">
+					<i class="fa-solid fa-arrow-left arrow-left"></i>
+					<i class="fa-solid fa-xmark close"></i>
+				</div>
+				<div class="galerie-modal-section">
+					<p class="galerie-modal-title">Galerie photo</p>
+					<div class="galerie-modal-list">
+					</div>
+					<hr class="separator">
+					<button class="add-new-work-btn">Ajouter une photo</button>
+				</div>
+				<div class="galerie-modal-add-section">
+					<p class="galerie-modal-title">Ajout photo</p>
+					<div class="add-picture-box">
+						<i class="fa-regular fa-image"></i>
+						<input type="file" name="uploadPicture" id="uploadPicture" accept="image/*">
+						<button class="add-picture-inbox-btn" onclick="document.getElementById('uploadPicture').click()">+ Ajouter
+							photo</button>
+						<p class="add-picture-info">jpg, png : 4mo max</p>
+					</div>
+					<div class="picture-input-groups">
+						<label for="titre">Titre</label>
+						<input type="text" name="titre" id="titreInput">
+						<label for="categorie">Categorie</label>
+						<input type="text" name="categorie" id="categorieInput">
+					</div>
+					<hr class="separator">
+					<button class="validate-new-work-btn">Valider</button>
+				</div>
+			</div>
+		</div>
+
 	</main>
 
 	<footer>

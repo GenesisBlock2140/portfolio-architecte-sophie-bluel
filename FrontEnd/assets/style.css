@@ -234,6 +234,7 @@ nav ul li a:hover {
 
 .category-btn-box {
 	display: flex;
+	flex-wrap: wrap;
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
@@ -367,6 +368,7 @@ footer nav ul {
 	margin: 0px auto;
 	margin-bottom: 28px;
 	font-family: 'Syne';
+	font-size: 14px;
 	font-weight: 700;
 	color: white;
 	background-color: #1D6154;

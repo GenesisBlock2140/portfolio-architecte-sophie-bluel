@@ -20,13 +20,13 @@ const getAllWorks = async () => {
 
 const renderAllWorks = ({ data }) => {
   const gallery = document.querySelector(".gallery");
+  gallery.innerHTML = "";
   data.map((item) => {
     gallery.appendChild(renderWorkItem({ data: item }));
   });
 };
 
 function renderWorkItem({ data }) {
-  console.log(data);
   let figure = document.createElement("figure");
   let img = document.createElement("img");
   img.src = data.imageUrl;
@@ -34,6 +34,7 @@ function renderWorkItem({ data }) {
   let figcaption = document.createElement("figcaption");
   figcaption.textContent = data.title;
   figure.dataset.categoryId = data.categoryId;
+  figure.id = "figure" + data.id;
   figure.appendChild(img);
   figure.appendChild(figcaption);
   return figure;
@@ -49,11 +50,7 @@ const renderCategoryButton = () => {
     filterButton.addEventListener("click", () => {
       let figures = document.querySelectorAll("figure[data-category-id]");
       figures.forEach((figure) => {
-        if (i === 0) {
-          figure.style.display = "block";
-          return;
-        }
-        if (figure.dataset.categoryId == i) {
+        if (i === 0 || figure.dataset.categoryId == i) {
           figure.style.display = "block";
         } else {
           figure.style.display = "none";

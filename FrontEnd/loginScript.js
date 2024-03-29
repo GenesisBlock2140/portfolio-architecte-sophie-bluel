@@ -42,5 +42,5 @@ init();
 // mettre a href dans les <li> avec # OK
 // figure dataset de la categori pour filtrer avec css en fonction du dataset et hidden les figures quand on switch de category OK
 // passer directement "data" dans renderWorkItem et c'est lui qui vient chercher quelle data il prend OK
-// live server pour localstorage
+// live server pour localstorage OK
 // enlever "Tous" en category du html et le push de base dans let allCategory = []; en position 0 OK

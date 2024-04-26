@@ -61,7 +61,18 @@ const renderAllWorksModal = (data) => {
   data.map((item) => {
     gallery.appendChild(renderWorkItemModal(item));
   });
+  renderCategoryList();
 };
+
+function renderCategoryList() {
+  let select = document.getElementById("categorieInput");
+  allCategory.forEach((item) => {
+    let option = document.createElement("option");
+    option.value = item.id;
+    option.textContent = item.name;
+    select.appendChild(option);
+  })
+}
 
 function renderWorkItemModal(data) {
   let div = document.createElement("div");

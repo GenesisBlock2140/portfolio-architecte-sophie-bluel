@@ -1,5 +1,10 @@
 let allCategory = [];
 let allWorks = [];
+let logoutButton = document.querySelector("#logoutBtn");
+logoutButton.onclick = function () {
+  localStorage.clear();
+  location.reload();
+}
 
 const getAllCategory = async () => {
   // Adding "Tous" to category in first place
@@ -47,7 +52,15 @@ const renderCategoryButton = () => {
     let filterButton = document.createElement("button");
     filterButton.textContent = allCategory[i].name;
     filterButton.classList.add("category-btn");
+    if (i === 0) {
+      filterButton.classList.add("category-btn-active");
+    }
     filterButton.addEventListener("click", () => {
+      let selectAllCategoryBtn = document.querySelectorAll(".category-btn");
+      selectAllCategoryBtn.forEach(function(item) {
+        item.classList.remove("category-btn-active");
+      });
+      filterButton.classList.add("category-btn-active");
       let figures = document.querySelectorAll("figure[data-category-id]");
       figures.forEach((figure) => {
         if (i === 0 || figure.dataset.categoryId == i) {
@@ -61,7 +74,24 @@ const renderCategoryButton = () => {
   }
 };
 
+const checkIsLogin = () => {
+  if (localStorage.getItem("token")) {
+    let filterList = document.querySelector(".category-btn-box");
+    filterList.style.visibility = "hidden";
+    let bannerEditMode = document.querySelector(".edit-mode-banner");
+    bannerEditMode.style.visibility = "visible";
+    let header = document.querySelector("header");
+    header.style.marginTop = "100px";
+    let loginBtn = document.querySelector("#loginHref");
+    loginBtn.style.display = "none";
+    logoutButton.style.display = "block";
+    let openModalBtn = document.querySelector("#openModalBtn");
+    openModalBtn.style.display = "block";
+  }
+}
+
 const init = async () => {
+  checkIsLogin();
   await getAllCategory();
   await getAllWorks();
   renderCategoryButton();

@@ -1,6 +1,7 @@
 let modal = document.getElementById("galerie-modal");
 
-let btn = document.getElementById("myBtn");
+let btn = document.getElementById("openModalBtn");
+let btnTopbar = document.getElementById("btn-edit-topbar");
 
 let span = document.getElementsByClassName("close")[0];
 
@@ -10,9 +11,10 @@ let addNewWorkBtn = document.querySelector(".add-new-work-btn");
 let arrowLeftBtn = document.querySelector(".arrow-left");
 let uploadNewWorkBtn = document.querySelector(".validate-new-work-btn");
 
-uploadNewWorkBtn.onclick = (() => {
-  let uploadPictureInput = document.getElementById("uploadPicture");
-  console.log(uploadPictureInput.value)
+uploadNewWorkBtn.onclick = ((event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  postNewWork();
 })
 
 function resetVisiblity() {
@@ -32,6 +34,11 @@ arrowLeftBtn.onclick = function () {
 };
 
 btn.onclick = function () {
+  modal.style.display = "block";
+  renderAllWorksModal(allWorks);
+};
+
+btnTopbar.onclick = function () {
   modal.style.display = "block";
   renderAllWorksModal(allWorks);
 };
@@ -64,20 +71,20 @@ function renderWorkItemModal(data) {
   button.onclick = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    let workItemInModal = document.getElementById("figureModal" + data.id);
-    let workItemInGallery = document.getElementById("figure" + data.id);
     if (window.confirm('Voulez-vous vraiment supprimer cet item ?')) {
       fetch("http://localhost:5678/api/works/" + data.id, {method: "DELETE", headers: {"Authorization": "Bearer " + localStorage.getItem("token")}})
       .then((res) => {
         console.log(res);
-        if (res.status === 202) {
+        if (res.status === 204) {
+          let workItemInModal = document.getElementById("figureModal" + data.id);
+          let workItemInGallery = document.getElementById("figure" + data.id);
           workItemInModal.remove();
           workItemInGallery.remove();
           allWorks = allWorks.filter((item) => item.id !== data.id);
         } else if (res.status === 401) {
-          console.log("Pas autorisé")
+          throw new Error("Non authorisé");
         } else {
-          console.log("erreur serv")
+          throw new Error("Erreur coté serveur");
         }
       }).catch((err) => {
         console.log(err);
@@ -94,6 +101,33 @@ function renderWorkItemModal(data) {
   div.appendChild(img);
   div.id = "figureModal" + data.id;
   return div;
+}
+
+function postNewWork() {
+  let uploadPicture = document.querySelector("#uploadPicture");
+  console.log(uploadPicture.files[0])
+  let titreInput = document.querySelector("#titreInput");
+  let categorieInput = document.querySelector("#categorieInput");
+  const formData = new FormData();
+  formData.append('image', uploadPicture.files[0]);
+  formData.append('title', titreInput.value);
+  formData.append('category', categorieInput.value);
+  fetch("http://localhost:5678/api/works", {
+    method: "POST", 
+    headers: {"Authorization": "Bearer " + localStorage.getItem("token")},
+    body: formData,
+  }).then((res) => {
+    if (res.status == 201) {
+      return res.json();
+    }
+  }).then((data) => {
+    console.log(data);
+    document.querySelector(".galerie-modal-list").appendChild(renderWorkItemModal(data));
+    document.querySelector(".gallery").appendChild(renderWorkItem({ data: data }));
+    allWorks.push(data);
+  }).catch((err) => {
+    console.log(err)
+  })
 }
 
 // https://www.w3schools.com/howto/howto_css_modals.asp

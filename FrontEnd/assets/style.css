@@ -406,3 +406,55 @@ footer nav ul {
 .login-error-visible {
 	display: block;
 }
+
+.edit-mode-banner {
+	visibility: hidden;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 100%;
+	height: 59px;
+	background-color: #000;
+	color: white;
+	font-size: 16px;
+	text-align: center;
+}
+
+.edit-mode-banner button {
+	font-size: 16px;
+	border: none;
+	background-color: #000;
+	color: white;
+	font-weight: 400;
+}
+
+#logoutBtn {
+	display: none;
+	text-decoration: none;
+	color: #0f0f0f;
+	border: none;
+	background-color: #fff;
+	font-size: 1em;
+}
+
+.projetSection {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 30px;
+}
+.projetSection > button {
+	display: none;
+	border: none;
+	background-color: #fff;
+	color: #000;
+	font-size: 14px;
+	font-weight: 400;
+}
+
+.projetSection > h2 {
+	margin-bottom: 0px !important;
+}

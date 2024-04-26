@@ -20,13 +20,16 @@
 </head>
 
 <body>
+	<div class="edit-mode-banner">
+		<i class="fa-regular fa-pen-to-square"></i> <button id="btn-edit-topbar">Mode édition</button>
+	</div>
 	<header>
 		<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 		<nav>
 			<ul>
 				<li><a href="#portfolio">projets</a></li>
 				<li><a href="#contact">contact</a></li>
-				<li><a href="./login.html">login</a></li>
+				<li><a id="loginHref" href="./login.html">login</a><button id="logoutBtn">logout</button></li>
 				<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 			</ul>
 		</nav>
@@ -47,7 +50,10 @@
 			</article>
 		</section>
 		<section id="portfolio">
-			<h2>Mes Projets</h2>
+			<div class="projetSection">
+				<h2>Mes Projets</h2>
+				<button id="openModalBtn"><i class="fa-regular fa-pen-to-square"></i> modifier</button>
+			</div>
 			<div class="category-btn-box">
 
 			</div>
@@ -68,7 +74,6 @@
 				<input type="submit" value="Envoyer">
 			</form>
 		</section>
-		<button id="myBtn">Ouvrir modal</button>
 
 		<div id="galerie-modal" class="modal">
 			<div class="galerie-modal-content">
